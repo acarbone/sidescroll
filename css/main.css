@@ -1,0 +1,29 @@
+html, body{
+	margin:0;
+	padding:0;
+}
+body{
+	background-color:#EEEEE8;
+	font-family:'Open Sans', sans-serif;
+	font-size:16px;
+	line-height:1.35;
+	font-weight:normal;
+	color:#212121;
+	text-shadow:0 1px 1px rgba(255, 255, 255, .8);
+}
+
+.content{
+	width:600px;
+	margin:40px auto;
+}
+	.content > .title{
+		font-size: 48px;
+		margin: 0 0 20px;
+		color: #142147;
+		font-weight: normal;
+		letter-spacing: -1px;
+	}
+
+	.content > p{
+		margin:0 0 12px;
+	}
