@@ -6,63 +6,61 @@
 
 (function(){
 
-	if( !window.addEventListener ) {
-		return;
-	}
+	var onload = function( obj, evt, fn ) {
+		if ( typeof obj.addEventListener != "undefined" )
+			obj.addEventListener( evt, fn, false );
+		else if ( typeof obj.attachEvent != "undefined" )
+			obj.attachEvent( "on" + evt, fn );
+	};
 
 	var self = window.Sidescroll = {
+
 		init: function() {
 			self.generate();
-
-			document.addEventListener('scroll', self.scrolling, false);
+			onload( self.document, 'scroll', self.scrolling );
+			onload( self.window, 'resize', self.recalc );
 		},
 
 		generate: function() {
-
-			self.wrapper = document.createElement('div');
-			self.wrapper.className = "wrap-sidescroll";
-			self.scroller = document.createElement('hr');
+			self.window             = window;
+			self.document           = document;
+			self.body               = self.document.body;
+			self.wrapper            = self.document.createElement('div');
+			self.wrapper.className  = "wrap-sidescroll";
+			self.scroller           = self.document.createElement('hr');
 			self.scroller.className = "sidescroll";
-			self.wrapper.appendChild( self.scroller );
-			document.body.appendChild( self.wrapper );
 
+			self.wrapper.appendChild( self.scroller );
+			self.body.appendChild( self.wrapper );
+			self.recalc();
+		},
+
+		recalc: function() {
+			self.bodyHeight = self.getBodyHeight();
+			self.maxScroll  = self.bodyHeight - self.window.innerHeight;
+			self.scrolling();
 		},
 
 		scrolling: function() {
-		
-
-
+			self.scroller.style.height = Math.round(self.getScrollTop() / self.maxScroll * 100) + '%';
 		},
 
 		getScrollTop: function() {
-		    if (typeof pageYOffset!= 'undefined'){
-		        //most browsers
+		    if (typeof pageYOffset!= 'undefined') {
 		        return pageYOffset;
+		    } else {
+		        var dom = self.document.documentElement;
+		        dom     = (dom.clientHeight)? dom: self.document.body;
+		        return dom.scrollTop;
 		    }
-		    else{
-		        var B= document.body; //IE 'quirks'
-		        var D= document.documentElement; //IE with doctype
-		        D= (D.clientHeight)? D: B;
-		        return D.scrollTop;
-		    }
-		}
-		styleElement: function(style) {
-			if (style.hasAttribute('data-noprefix')) {
-				return;
-			}
-			var disabled = style.disabled;
-			
-			style.textContent = self.fix(style.textContent, true, style);
-			
-			style.disabled = disabled;
 		},
 
-		styleAttribute: function(element) {
-			var css = element.getAttribute('style');
-			
-			css = self.fix(css, false, element);
-			
-			element.setAttribute('style', css);
+		getBodyHeight: function() {
+			return Math.max(
+				Math.max(self.document.body.scrollHeight, self.document.documentElement.scrollHeight),
+				Math.max(self.document.body.offsetHeight, self.document.documentElement.offsetHeight),
+				Math.max(self.document.body.clientHeight, self.document.documentElement.clientHeight)
+			);
 		}
 		
 	};
@@ -70,8 +68,8 @@
 	/**************************************
 	 * Init Sidescroll
 	 **************************************/
-	(function(){
-		document.addEventListener('DOMContentLoaded', Sidescroll.init, false);
+	(function() {
+		onload( window, 'load', Sidescroll.init );
 	})();
 
 })();
