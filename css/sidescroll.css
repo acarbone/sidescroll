@@ -1,9 +1,9 @@
 .wrap-sidescroll{
 	position:fixed;
-	top:0;
-	right:3px;
-	width:5px;
-	height:100%;
+	top:1%;
+	left:1%;
+	width:1%;
+	height:98%;
 	background-color:#ddd;
 }
 

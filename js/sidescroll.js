@@ -6,7 +6,7 @@
 
 (function(){
 
-	var onload = function( obj, evt, fn ) {
+	var addEvent = function( obj, evt, fn ) {
 		if ( typeof obj.addEventListener != "undefined" )
 			obj.addEventListener( evt, fn, false );
 		else if ( typeof obj.attachEvent != "undefined" )
@@ -17,8 +17,9 @@
 
 		init: function() {
 			self.generate();
-			onload( self.document, 'scroll', self.scrolling );
-			onload( self.window, 'resize', self.recalc );
+			addEvent( self.document, 'scroll', self.scrolling );
+			addEvent( self.window, 'resize', self.recalc );
+			addEvent( self.window, 'load', self.recalc );
 		},
 
 		generate: function() {
@@ -69,7 +70,7 @@
 	 * Init Sidescroll
 	 **************************************/
 	(function() {
-		onload( window, 'load', Sidescroll.init );
+		addEvent( document, 'DOMContentLoaded', Sidescroll.init );
 	})();
 
 })();
