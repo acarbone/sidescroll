@@ -1,7 +1,7 @@
 Sidescroll
 ==========
 
-Js experiment (*no framework used*) to generate a dynamic bar through its height indicates the scrolling percentage of the page.
+Js experiment *(no framework used)* to generate a dynamic bar through its height indicates the scrolling percentage of the page.
 
 How to use
 ----------
